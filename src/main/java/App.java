@@ -56,8 +56,11 @@ public class App {
             if(s == "AttendContest"){
                 int contestId = Integer.parseInt(scanner.next());
                 List<String> usernames = new ArrayList<>();
-                for()
-
+                while(scanner.hasNext()){
+                    usernames.add(scanner.next());
+                }
+                contestRepo.attendContest(contestId, usernames);
+                continue;
             }
         }
     }
