@@ -1,13 +1,17 @@
 package dao;
 
 import enitities.User;
+
+import java.util.HashMap;
 import java.util.Map;
 
 public class UserRepo {
 
     private Map<String, User> users;
     private static  UserRepo instance = null;
-    private UserRepo(){ }
+    private UserRepo(){
+        users = new HashMap<>();
+    }
 
     public static UserRepo getInstance(){
         if (instance == null){

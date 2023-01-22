@@ -4,6 +4,7 @@ import enitities.Leaderboard;
 import enitities.User;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,48 +22,19 @@ public class App {
     }
 
     public void run(){
-        UserRepo userRepo = UserRepo.getInstance();
-        Scanner scanner = new Scanner(System.in);
-        while(true){
-            String s = scanner.next();
-            if(s == "CreateUser"){
-                String name = scanner.next();
-                userRepo.addUser(name);
-                continue;
-            }
-            if(s == "Leaderboard"){
-                leaderboard.showRatings();
-                continue;
-            }
-            if(s == "LeaderboardInRange"){
-                int st = Integer.parseInt(scanner.next());
-                int en = Integer.parseInt(scanner.next());
-                leaderboard.showRatingsInRange(st, en);
-                continue;
-            }
-            if(s == "ContestHistory"){
-                int contestId = Integer.parseInt(scanner.next());
-                contestRepo.printContestHistory(contestId);
-                continue;
-            }
-            if(s == "CreateContest"){
-                int count = Integer.parseInt(scanner.next());
-                List<Integer> list = new ArrayList<>();
-                for(int i = 0 ; i < count ; i++)
-                    list.add(Integer.parseInt(scanner.next()));
-                contestRepo.createContest(count, list);
-                continue;
-            }
-            if(s == "AttendContest"){
-                int contestId = Integer.parseInt(scanner.next());
-                List<String> usernames = new ArrayList<>();
-                while(scanner.hasNext()){
-                    usernames.add(scanner.next());
-                }
-                contestRepo.attendContest(contestId, usernames);
-                continue;
-            }
-        }
+        userRepo.addUser("joey");
+        userRepo.addUser("monica");
+        userRepo.addUser("ross");
+        userRepo.addUser("rachel");
+        userRepo.addUser("phoebe");
+        contestRepo.createContest(4, Arrays.asList(5 , 15 , 35 , 45));
+        contestRepo.attendContest(1, Arrays.asList("joey", "monica", "ross"));
+        leaderboard.showRatings();
+        contestRepo.createContest(5, Arrays.asList(10, 15 , 20 , 25, 30));
+        leaderboard.showRatingsInRange(1 , 2);
+        contestRepo.printContestHistory(1);
+        contestRepo.printContestHistory(2);
+        leaderboard.showRatings();
     }
 
     public static void main(String[] args) {

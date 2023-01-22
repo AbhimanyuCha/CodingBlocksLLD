@@ -11,4 +11,7 @@ public class User {
     public void updateRating(int points){
         rating += (points - 50);
     }
+    public int getRating(){
+        return rating;
+    }
 }

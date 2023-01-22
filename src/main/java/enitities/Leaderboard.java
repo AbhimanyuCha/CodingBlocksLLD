@@ -16,9 +16,11 @@ public class Leaderboard {
     }
 
     public void showRatings(){
+        System.out.println("Leaderboard:\n");
         userRepo.getUsers()
                 .entrySet()
-                .forEach(entry -> System.out.println(entry.getKey() + " " + entry.getValue()));
+                .forEach(entry -> System.out.println(entry.getKey() + " " + entry.getValue().getRating()));
+        System.out.println("\n");
     }
 
     public void showRatingsInRange(int contestIdStart, int contestIdEnd){
@@ -29,8 +31,9 @@ public class Leaderboard {
                 .map(entry -> entry.getValue().getResult())
                 .forEach(resultMap -> resultMap.entrySet().stream().forEach(k ->  users.put(k.getKey()
                         , users.getOrDefault(k.getKey() , 0) + k.getValue())));
+        System.out.println("Contest Ratings in range of contests " + contestIdStart + " " + contestIdEnd);
         for(Map.Entry<User, Integer> entry : users.entrySet()){
-            System.out.println(entry.getKey() + " " + entry.getValue());
+            System.out.println(entry.getKey().username + " " + entry.getValue());
         }
     }
 

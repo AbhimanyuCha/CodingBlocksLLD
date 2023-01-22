@@ -5,8 +5,10 @@ import enitities.User;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class ContestRepo {
     private static final int REQUIRED_SUM = 100;
@@ -14,10 +16,12 @@ public class ContestRepo {
     private static ContestRepo instance = null;
     public static Map<Integer, Contest> contests;
 
-    private ContestRepo(){ }
+    private ContestRepo(){
+        contests = new HashMap<>();
+    }
 
     public static ContestRepo getInstance(){
-        if(instance != null){
+        if(instance == null){
             instance = new ContestRepo();
         }
         return instance;
@@ -28,10 +32,17 @@ public class ContestRepo {
     }
 
     public void printContestHistory(int contestId){
-        if(contests.containsKey(contestId))
-            contests.get(contestId).getResult()
-                    .entrySet()
-                    .forEach(entry -> System.out.println(entry.getKey() + " " + entry.getValue()));
+        if(contests.containsKey(contestId)) {
+            Map<User, Integer> result = Optional.ofNullable(contests.get(contestId).getResult()).orElse(null);
+            if(result.isEmpty()) {
+                System.out.println("No result for contestId / Contest did not occur " + contestId);
+                return;
+            }else{
+                System.out.println("\nContest History : " + contestId);
+                result.entrySet().forEach(e -> System.out.println(e.getKey().username + " " + e.getValue()));
+                System.out.println();
+            }
+        }
         else
             System.out.println("ERROR : contest is not present");
     }
@@ -55,7 +66,7 @@ public class ContestRepo {
 
     public boolean createContest(int countOfProblems, List<Integer> difficultyPoints){
         int id = contests.size() + OFFSET;
-        Contest newContest = Contest.builder().id(id).build();
+        Contest newContest = new Contest(id);
         int sum = difficultyPoints.stream().mapToInt(i -> i.intValue()).sum();
         if(sum != REQUIRED_SUM){
             System.out.println("ERROR : The sum of values is not equal to " + REQUIRED_SUM);
